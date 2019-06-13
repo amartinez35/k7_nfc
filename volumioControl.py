@@ -13,6 +13,7 @@ import json
 # pour la communication avec volumio
 from socketIO_client import SocketIO, LoggingNamespace
 # passage en UTF-8
+
 import sys
 reload(sys)
 sys.setdefaultencoding("utf-8")
