@@ -25,4 +25,5 @@ while True:
       print(playlist)
       vol.set_playlist(playlist)
       vol.create_playlist()
+      vol.record_playlist()
        
