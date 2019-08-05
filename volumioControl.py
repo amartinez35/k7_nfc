@@ -22,5 +22,7 @@ while True:
     if commande == 'Rec':
       playlist = nfc_read_card()
       print(commande)
-      print(playlist) 
+      print(playlist)
+      vol.set_playlist(playlist)
+      vol.create_playlist()
        
