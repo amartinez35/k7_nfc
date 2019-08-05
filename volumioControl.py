@@ -11,7 +11,6 @@ def nfc_read_card():
   try:
     time.sleep(1)
     uid = mifare.select()
-    print(uid)
     return uid
   except nxppy.SelectError:
         # SelectError is raised if no card is in the field.
