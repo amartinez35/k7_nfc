@@ -12,6 +12,15 @@ class Volumio:
     def __on_getQueue_response(self, *args):
         self.playlist = args[0]
 
+    def __on_search_response(self, *args):
+        search_result = args[0].get('navigation').get('lists')[0].get('items')[0].get('uri')
+        print(search_result)
+        self.clear_queue()
+        self.add_to_queue(search_result)
+
+    def __on_getState_response(self, *args):
+        print(args[0])
+
     def set_playlist(self, playlist):
         self.playlist_name = playlist
         self.socketIO.on('pushQueue', self.__on_getQueue_response)
@@ -22,37 +31,55 @@ class Volumio:
         self.socketIO.emit('playPlaylist', {'name': self.playlist_name})
     
     def create_playlist(self):
-        self.socketIO.emit('createPlayist', {'name': self.playlist_name})
+        self.socketIO.emit('createPlaylist', {'name': self.playlist_name})
     
     def remove_playlist(self):
         self.socketIO.emit('deletePlaylist', {'name': self.playlist_name})
     
     def set_volume(self, volume):
-        (self.socketIO.emit('mute', ''), self.socketIO.emit('volume', volume))[volume<=100 and volume>=0]
+        if volume > 0 or volume <100:
+          self.socketIO.emit('volume', volume)
     
     def add_to_playlist(self, song):
-        uri = song['uri'].decode().encode('utf-8')
+        uri = song['uri']
         self.socketIO.emit('addToPlaylist', {'name': self.playlist_name, 'service': song['service'], 'uri': uri})
     
     def record_playlist(self):
         for song in self.playlist:
             self.add_to_playlist(song)
             time.sleep(0.7)
+
+    def search(self, query):
+        self.socketIO.on('pushBrowseLibrary', self.__on_search_response)
+        self.socketIO.emit('search', {'value': query}, self.__on_search_response)
+        self.socketIO.wait_for_callbacks(seconds=1)
+
+    def getState(self):
+        self.socketIO.on('pushState', self.__on_getState_response)
+        self.socketIO.emit('getState', '', self.__on_getState_response)
+        self.socketIO.wait_for_callbacks(seconds=1)
+
     
     def next_song(self):
-        self.socketIO.emit('next', '')
+        self.socketIO.emit('next')
     
     def previous_song(self):
-        self.socketIO.emit('prev', '')
+        self.socketIO.emit('prev')
     
-    def stop(self):
-        self.socketIO.emit('stop', '')
+    def stop_song(self):
+        self.socketIO.emit('stop')
     
-    def play(self):
-        self.socketIO.emit('play', '')
+    def pause_song(self):
+        self.socketIO.emit('pause')
+    
+    def play_song(self):
+        self.socketIO.emit('play')
     
     def clear_queue(self):
-        self.socketIO.emit('clearQueue', '')
+        self.socketIO.emit('clearQueue')
+    
+    def add_to_queue(self, uri):
+        self.socketIO.emit('addToQueue', {'uri': uri})
     
 
     @staticmethod

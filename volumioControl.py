@@ -130,3 +130,9 @@ while True:
     except KeyboardInterrupt:
         GPIO.cleanup()
         pass
+import serial
+ser = serial.Serial('/dev/ttyACM0', 9600)
+
+while True:
+  commande = ser.readline().decode().strip()
+  print(commande) 
