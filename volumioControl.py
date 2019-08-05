@@ -1,7 +1,6 @@
-#!/usr/bin/python3
-# -*- coding:utf-8 -*-
 import serial
 from Volumio import Volumio
+
 ser = serial.Serial('/dev/ttyACM0', 9600)
 vol = Volumio()
 
