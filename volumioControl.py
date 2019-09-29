@@ -19,9 +19,9 @@ def nfc_read_card():
 while True:
   if ser.inWaiting() > 0:
     commande = ser.readline().decode().strip()
+    print(commande)
     if commande == 'Rec':
       playlist = nfc_read_card()
-      print(commande)
       print(playlist)
       volumio.set_playlist(playlist)
       volumio.create_playlist()
