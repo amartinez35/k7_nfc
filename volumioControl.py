@@ -28,4 +28,6 @@ while True:
       volumio.record_playlist()
     if commande == 'Play':
       volumio.play_song()
+    if commande == 'Prev':
+      volumio.previous_song()
        
