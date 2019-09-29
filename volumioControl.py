@@ -28,7 +28,11 @@ while True:
         volumio.create_playlist()
         volumio.record_playlist()
     if commande == 'Play':
-      volumio.play_song()
+      playlist = nfc_read_card()
+      print(playlist)
+      if playlist is not None:
+        volumio.set_playlist(playlist)
+        volumio.play_playlist()
     if commande == 'Prev':
       volumio.previous_song()
     if commande == 'Next':
