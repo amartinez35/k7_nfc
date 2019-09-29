@@ -4,7 +4,7 @@ import nxppy
 from Volumio import Volumio
 
 ser = serial.Serial('/dev/ttyACM0', 9600)
-vol = Volumio()
+volumio = Volumio()
 mifare = nxppy.Mifare()
 
 def nfc_read_card():
@@ -23,7 +23,9 @@ while True:
       playlist = nfc_read_card()
       print(commande)
       print(playlist)
-      vol.set_playlist(playlist)
-      vol.create_playlist()
-      vol.record_playlist()
+      volumio.set_playlist(playlist)
+      volumio.create_playlist()
+      volumio.record_playlist()
+    if commande == 'Play':
+      volumio.play_song()
        
