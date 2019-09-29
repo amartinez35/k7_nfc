@@ -30,4 +30,8 @@ while True:
       volumio.play_song()
     if commande == 'Prev':
       volumio.previous_song()
+    if commande == 'Next':
+      volumio.next_song()
+    if commande == 'Stop':
+      volumio.stop_song()
        
