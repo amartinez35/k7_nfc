@@ -23,9 +23,10 @@ while True:
     if commande == 'Rec':
       playlist = nfc_read_card()
       print(playlist)
-      volumio.set_playlist(playlist)
-      volumio.create_playlist()
-      volumio.record_playlist()
+      if not playlist:
+        volumio.set_playlist(playlist)
+        volumio.create_playlist()
+        volumio.record_playlist()
     if commande == 'Play':
       volumio.play_song()
     if commande == 'Prev':
